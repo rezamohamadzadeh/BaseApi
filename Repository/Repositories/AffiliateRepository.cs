@@ -1,5 +1,6 @@
 ﻿using DAL;
 using DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using Repository.IRepositories;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,13 @@ namespace Repository.Repositories
         public AffiliateRepository(ApplicationDbContext Db) : base(Db)
         { }
 
+        public async Task<List<Tb_Affiliates>> GetAffiliates()
+        {
+            var affiliates = await _context.Tb_Affiliates
+                                     .Select(d => new Tb_Affiliates { FirstName = d.FirstName + " " + d.LastName, Code = d.Code })
+                                     .OrderBy(d => d.FirstName).ToListAsync();
 
+            return affiliates;
+        }
     }
 }

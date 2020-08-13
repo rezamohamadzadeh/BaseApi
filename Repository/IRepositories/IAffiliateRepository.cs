@@ -9,5 +9,6 @@ namespace Repository.IRepositories
 {
     public interface IAffiliateRepository : IGenericRepository<Tb_Affiliates>
     {
+        Task<List<Tb_Affiliates>> GetAffiliates();
     }
 }

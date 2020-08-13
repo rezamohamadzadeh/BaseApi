@@ -54,6 +54,7 @@ namespace BaseApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
 

@@ -13,8 +13,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\DAL\DAL.csproj" />
     <ProjectReference Include="..\Repository\Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="EPPlus">
+      <HintPath>C:\Users\Administrator\Desktop\ManageTelegramBot\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="MimeKit">
+      <HintPath>C:\Users\Administrator\Desktop\ManageTelegramBot\MimeKit.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfRpt.Core">
+      <HintPath>C:\Users\Administrator\Desktop\ManageTelegramBot\PdfRpt.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 
