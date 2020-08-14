@@ -27,6 +27,13 @@ namespace BaseApi.Controllers
             _hostEnvironment = hostEnvironment;
         }
 
+        /// <summary>
+        /// Get Affiliates Sell Report
+        /// </summary>
+        /// <param name="filterDate"></param>
+        /// <param name="userType"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public async Task<IActionResult> GetAffiliateUsers(string filterDate, string userType, string email = null)
         {
             try
@@ -76,7 +83,7 @@ namespace BaseApi.Controllers
 
                     list.Add(report);
                 }
-                var pdfFile = CreatePdf<AffiliateReportDto>.createReport(_hostEnvironment.WebRootPath, list, true, "All Affiliates Sell Report", "AffiliateCode", "AffiliateEmail", "RegisteredCount").GenerateAsByteArray();
+                var pdfFile = CreatePdf<AffiliateReportDto>.createReport(_hostEnvironment.WebRootPath, list, true, filterDate + " Sell Report", "AffiliateCode", "AffiliateEmail", "RegisteredCount").GenerateAsByteArray();
 
                 return Ok(new JsonResultContent<byte[]>(true, JsonStatusCode.Success, pdfFile));
             }
@@ -86,21 +93,27 @@ namespace BaseApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Change sell report pdf file header
+        /// </summary>
+        /// <returns></returns>
+
         [HttpPost]
-        public async Task<IActionResult> ChangeAffiliateSellReportFileHeader([FromQuery] SettingViewModel model)
+        [Produces("multipart/form-data")]
+        public async Task<IActionResult> ChangeAffiliateSellReportFileHeader()
         {
             try
             {
-                if (model.File == null)
+                var model = Request.Form.Files[0];
+
+                if (model == null)
                     return BadRequest(new JsonResultContent(false, JsonStatusCode.Warning));
 
                 string fileName = "AffiliateSellReportHeader.Png";
 
                 Upload uploader = new Upload();
                 Delete delete = new Delete();
-                string deletPath = Path.Combine(
-                        Directory.GetCurrentDirectory(), "wwwroot/images", fileName
-                    );
+                string deletPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
                 delete.DeleteImage(deletPath);
 
 
@@ -108,18 +121,21 @@ namespace BaseApi.Controllers
 
 
                 string DirectoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
-                await uploader.UploadImage(savePath, DirectoryPath, model.File);
-
-                return Ok(new JsonResultContent(true, JsonStatusCode.Success));
+                await uploader.UploadImage(savePath, DirectoryPath, model);
+                return Ok();
 
 
             }
             catch (Exception)
             {
-                return BadRequest(new JsonResultContent(false, JsonStatusCode.Error));
+                return BadRequest();
             }
         }
 
+        /// <summary>
+        /// Get all affiliate users for admin in bot
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> GetAffiliates()
         {
             try
@@ -132,6 +148,12 @@ namespace BaseApi.Controllers
                 return BadRequest(new JsonResultContent(false, JsonStatusCode.Error));
             }
         }
+
+        /// <summary>
+        /// Get Affiliate Sells by affiliatecode for admin in bot
+        /// </summary>
+        /// <param name="affiliateCode"></param>
+        /// <returns></returns>
         public async Task<IActionResult> GetAffiliateSells(string affiliateCode)
         {
             try
