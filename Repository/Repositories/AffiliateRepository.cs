@@ -1,11 +1,16 @@
 ﻿using DAL;
 using DAL.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+using Newtonsoft.Json;
 using Repository.IRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Repository.Repositories
@@ -23,5 +28,18 @@ namespace Repository.Repositories
 
             return affiliates;
         }
+
+        public async Task<string> GetTopAffiliatesSell()
+        {
+            var topSells = await _context
+                .Tb_Sells.GroupBy(d => d.AffiliateCode)
+                .Select(m => new { Count = m.Count(), Code = m.Key })
+                .OrderByDescending(s => s.Count)
+                .ToListAsync();
+
+            return JsonConvert.SerializeObject(topSells);
+
+        }
+
     }
 }

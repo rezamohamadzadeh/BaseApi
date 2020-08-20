@@ -11,6 +11,7 @@ using Common.Images;
 using DAL.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Repository.InterFace;
 
 namespace BaseApi.Controllers
@@ -172,6 +173,34 @@ namespace BaseApi.Controllers
                 return BadRequest(new JsonResultContent(false, JsonStatusCode.Error));
             }
         }
+        /// <summary>
+        /// Get top affiliate sells
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> GetTopAffiliateSells()
+        {
+            try
+            {
+                var jsonResult = await _uow.AffiliateRepo.GetTopAffiliatesSell();
+                var affiliateSells = JsonConvert.DeserializeObject<List<TopAffiliatesSellDto>>(jsonResult);
+                
+                foreach (var item in affiliateSells)
+                {
+                    var affiliate = _uow.AffiliateRepo.Get(d => d.Code == item.Code).FirstOrDefault();
+                    if (affiliate == null)
+                        item.Name = "";
+                    else
+                        item.Name = affiliate.FirstName + " " + affiliate.LastName;
+                }
 
+
+
+                return Ok(new JsonResultContent<List<TopAffiliatesSellDto>>(true, JsonStatusCode.Success, affiliateSells));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new JsonResultContent(false, JsonStatusCode.Error));
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace BaseApi.Utility.GeneratePdfFile
             {
                 doc.RunDirection(PdfRunDirection.LeftToRight);
                 doc.Orientation(PageOrientation.Portrait);
-                doc.PageSize(PdfRpt.Core.Contracts.PdfPageSize.A4);
+                doc.PageSize(PdfPageSize.A4);
                 doc.DocumentMetadata(new DocumentMetadata { Author = "Reza", Application = "PdfRpt", Keywords = "IList Rpt.", Subject = "Test Rpt", Title = "Test" });
                 doc.Compression(new CompressionSettings
                 {
@@ -32,7 +32,7 @@ namespace BaseApi.Utility.GeneratePdfFile
                 {
                     fonts.Path(Path.Combine(wwwroot, "fonts", "verdana.ttf"),
                         Path.Combine(wwwroot, "fonts", "tahoma.ttf"));
-                    fonts.Size(9);
+                    fonts.Size(10);
                     fonts.Color(System.Drawing.Color.Black);
                 })
                 .PagesFooter(footer =>
@@ -41,17 +41,19 @@ namespace BaseApi.Utility.GeneratePdfFile
                 })
                 .PagesHeader(header =>
                 {
+                    
                     header.CacheHeader(cache: true); // It's a default setting to improve the performance.
                     header.DefaultHeader(defaultHeader =>
                     {
                         defaultHeader.RunDirection(PdfRunDirection.LeftToRight);
                         defaultHeader.ImagePath(Path.Combine(wwwroot, "images", "AffiliateSellReportHeader.Png"));
                         defaultHeader.Message(Title);
+                        
                     });
                 })
                 .MainTableTemplate(template =>
                 {
-                    template.BasicTemplate(BasicTemplate.ClassicTemplate);
+                    template.BasicTemplate(BasicTemplate.SilverTemplate);
                 })
                 .MainTablePreferences(table =>
                 {
