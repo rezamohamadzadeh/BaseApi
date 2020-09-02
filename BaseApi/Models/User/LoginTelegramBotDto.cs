@@ -3,13 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BaseApi.Models.User
 {
-    public class LoginDto
+    public class LoginTelegramBotDto
     {
         [Required]
         public string UserName { get; set; }
 
         [Required]
-        public string Password { get; set; }
+        public string UserType { get; set; }
 
+        [Required]
+        public string Password { get; set; }
     }
 }
