@@ -24,13 +24,12 @@
 
   <ItemGroup>
     <Reference Include="EPPlus">
-      <HintPath>C:\Users\Administrator\Desktop\ManageTelegramBot\EPPlus.dll</HintPath>
-    </Reference>
-    <Reference Include="MimeKit">
-      <HintPath>C:\Users\Administrator\Desktop\ManageTelegramBot\MimeKit.dll</HintPath>
+      <HintPath>..\..\EPPlus.dll</HintPath>
+      <Private>true</Private>
     </Reference>
     <Reference Include="PdfRpt.Core">
-      <HintPath>C:\Users\Administrator\Desktop\ManageTelegramBot\PdfRpt.Core.dll</HintPath>
+      <HintPath>..\..\PdfRpt.Core.dll</HintPath>
+      <Private>true</Private>
     </Reference>
   </ItemGroup>
 

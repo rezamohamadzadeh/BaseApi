@@ -1,12 +1,11 @@
-﻿using BaseApi.Models.Sell;
-using PdfRpt.Core.Contracts;
+﻿using PdfRpt.Core.Contracts;
 using PdfRpt.FluentInterface;
 using System;
 using System.Collections.Generic;
 using System.IO;
 namespace BaseApi.Utility.GeneratePdfFile
 {
-    public static class CreatePdf<TEntity> where TEntity : class
+    public class CreatePdf<TEntity> where TEntity : class
     {
        /// <summary>
        /// This Method generetate pdf file
