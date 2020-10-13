@@ -45,6 +45,8 @@ namespace BaseApi
                 option.Password.RequireUppercase = false;
             });
 
+            services.AddHttpClient();
+
             #endregion
         }
 
